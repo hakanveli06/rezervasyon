@@ -1,9 +1,10 @@
 # ── Stage 1: Build React Frontend ─────────────────────────
-FROM node:20-alpine AS frontend-build
+FROM node:18-alpine AS frontend-build
 WORKDIR /app/frontend
 COPY frontend/package.json ./
 RUN npm install --legacy-peer-deps
 COPY frontend/ ./
+ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 # ── Stage 2: Python Backend + Static Files ────────────────
