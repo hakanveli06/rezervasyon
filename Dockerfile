@@ -2,9 +2,11 @@
 FROM node:18-alpine AS frontend-build
 WORKDIR /app/frontend
 
-# package-lock.json dosyasını da kopyalıyoruz ki uyumlu sürümler kurulsun
-COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm install --legacy-peer-deps
+# Sadece package.json dosyasını kopyalıyoruz
+COPY frontend/package.json ./
+
+# --no-package-lock ekleyerek zehirli kilit dosyasını devre dışı bırakıyoruz
+RUN npm install --legacy-peer-deps --no-package-lock
 
 COPY frontend/ ./
 ENV NODE_OPTIONS=--openssl-legacy-provider
