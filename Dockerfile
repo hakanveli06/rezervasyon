@@ -1,8 +1,11 @@
 # ── Stage 1: Build React Frontend ─────────────────────────
 FROM node:18-alpine AS frontend-build
 WORKDIR /app/frontend
-COPY frontend/package.json ./
+
+# package-lock.json dosyasını da kopyalıyoruz ki uyumlu sürümler kurulsun
+COPY frontend/package.json frontend/package-lock.json* ./
 RUN npm install --legacy-peer-deps
+
 COPY frontend/ ./
 ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
