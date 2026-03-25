@@ -2,15 +2,15 @@
 FROM node:18-alpine AS frontend-build
 WORKDIR /app/frontend
 
-# Sadece package.json dosyasını kopyalıyoruz
+# Sadece package.json kopyalıyoruz
 COPY frontend/package.json ./
 
-# --no-package-lock ekleyerek zehirli kilit dosyasını devre dışı bırakıyoruz
-RUN npm install --legacy-peer-deps --no-package-lock
+# npm yerine yarn kullanıyoruz. Yarn kilitlenme sorunlarını ve dizin hatalarını çözer.
+RUN yarn install
 
 COPY frontend/ ./
 ENV NODE_OPTIONS=--openssl-legacy-provider
-RUN npm run build
+RUN yarn build
 
 # ── Stage 2: Python Backend + Static Files ────────────────
 FROM python:3.12-slim
