@@ -22,14 +22,3 @@
     "ajv-keywords": "^5.1.0"
   }
 }
-```
-
-**2) `Dockerfile`** dosyasının **ilk satırını** değiştir:
-```
-Eski:  FROM node:20-alpine AS frontend-build
-Yeni:  FROM node:18-alpine AS frontend-build
-```
-
-Ve `COPY frontend/ ./` satırından **sonra**, `RUN npm run build` satırından **önce** şu satırı ekle:
-```
-ENV NODE_OPTIONS=--openssl-legacy-provider
